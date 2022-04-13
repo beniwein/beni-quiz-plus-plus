@@ -6,6 +6,8 @@ if ($_POST["answer"] == 4) {
 ?> -->
 
 <?php
+    $currentQuestionIndex = 3;
+
     if (isset($_POST['lastQuestionIndex'])) {
 
         if (isset ($_POST['nextQuestionIndex'])) {
@@ -39,14 +41,14 @@ if ($_POST["answer"] == 4) {
         $subQuery->bindValue(1, $question['ID']);    
         $subQuery->execute();
         $answers = $subQuery->fetchAll(PDO::FETCH_ASSOC);
-        $questions[$key]['answers'] = $answers;
+        $questions[$key]['Text2'] = $answers;
     }
 
     $_SESSION['quizData'] = $questions;
 
-    echo '<pre>';
-    print_r($_SESSION['quizData']);
-    echo '</pre>';
+    //echo '<pre>';
+    //print_r($_SESSION['quizData']);
+    //echo '</pre>';
 
     
     
@@ -61,7 +63,7 @@ if ($_POST["answer"] == 4) {
     //echo '<thead>';
     //echo '<tr>';
 
-    $columnCount = $query->columnCount();
+    /*$columnCount = $query->columnCount();
 
     for ($i = 0; $i < $columnCount; $i++) {
         $columnInfo = $query->getColumnMeta($i);
@@ -81,7 +83,7 @@ if ($_POST["answer"] == 4) {
        echo '</tr>';
        
     }
-    
+    */
     //echo '</table>';
     //echo '</div>';
     //echo '</div>';
@@ -105,36 +107,38 @@ if ($_POST["answer"] == 4) {
     <script src="js/main.js"></script>
 </head>
 <body>
+        
 
         <form class="form" method="post">
-        <h2>Tech-Quizz</h2>
+        <h2>Tech-Quizz</h2><hr>
         <h3>Question: <?php echo $currentQuestionIndex; ?><h3>
-        <p><?php echo $questions[currentQuestionIndex]['text']; ?></p>
+        <p><?php echo $questions[$currentQuestionIndex]['Text']; ?></p>
+                
+    <br><button type="submit" class="answer1" name="answer" value="1"><?php
+            $answers = $questions[$currentQuestionIndex]['Text2'];
+            echo $answers[0]['Text2'];
+        ?></button><br><br>
+         
+    <button type="submit" class="answer2" name="answer" value="2"><?php
+            $answers = $questions[$currentQuestionIndex]['Text2'];
+            echo $answers[1]['Text2'];
+        ?></button><br><br>
         
+    <button type="submit" class="answer3" name="answer" value="3"><?php
+            $answers = $questions[$currentQuestionIndex]['Text2'];
+            echo $answers[2]['Text2'];
+        ?></button><br><br>
+     
+    <button type="submit" class="answer4" name="answer" value="4"><?php
+            $answers = $questions[$currentQuestionIndex]['Text2'];
+            echo $answers[3]['Text2'];
+        ?></button><br><br>
         
-    <br><button type="submit" class="answer1" name="answer" value="1">Digital wallet</button><br><br>
-        <?php
-            $answers = $questions[$currentQuestionIndex]['answers'];
-            echo $answers[0]['answer'];
-        ?>    
-    <button type="submit" class="answer2" name="answer" value="2">Mining</button><br><br>
-        <?php
-            $answers = $questions[$currentQuestionIndex]['answers'];
-            echo $answers[0]['answer'];
-        ?>
-    <button type="submit" class="answer3" name="answer" value="3">Blockchain</button><br><br>
-    <?php
-            $answers = $questions[$currentQuestionIndex]['answers'];
-            echo $answers[1]['answer'];
-        ?>    
-    <button type="submit" class="answer4" name="answer" value="4">Token</button>
-        <?php
-            $answers = $questions[$currentQuestionIndex]['answers'];
-            echo $answers[0]['answer'];
-        ?>
 
-        <input type="hidden" name="lastQuestionIndex" value="0">
-        <input type="hidden" name="nextQuestionIndex" value="1">
+        <input type="hidden" name="lastQuestionIndex" value="<?php echo $currentQuestionIndex;?>">
+        <input type="hidden" name="nextQuestionIndex" value="<?php echo $currentQuestionIndex +1;?>">
+
+<!-- for ($Text2 = 0; $Text2 < count($answers); Text2++){echo...;} -->
 
 
         </form>
