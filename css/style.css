@@ -1,4 +1,9 @@
 .body {
     background-color: aquamarine;
     color: darkslategray;
+    margin: 50px
+}
+
+.answer1 {
+    margin-left: 50px;
 }
