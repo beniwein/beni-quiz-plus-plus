@@ -18,7 +18,7 @@
 <?php
     session_start();
 
-    $_SESSION["page10"] = $_POST["page10"];
+    $_SESSION["index"] = $_POST["index"];
 
     $score = $_SESSION['Correct'];
 
@@ -37,7 +37,7 @@
 <a class="btn btn-primary btn-sm float-end" href="index.php" type="button">Back to Quiz</a>
 
 <!-- hidden field -->
-<input type="hidden" id="feedback-healthyId" name="feedback-healthyId" value="feedback-healthy">
+<input type="hidden" id="feedbackId" name="feedbackId" value="feedback">
 
 <script src="main.js"></script>
 </body>

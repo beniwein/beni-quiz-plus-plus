@@ -113,32 +113,43 @@ if ($_POST["answer"] == 4) {
         <h2>Tech-Quizz</h2><hr>
         <h3>Question: <?php echo $currentQuestionIndex; ?><h3>
         <p><?php echo $questions[$currentQuestionIndex]['Text']; ?></p>
-                
-    <br><button type="submit" class="answer1" name="answer" value="1"><?php
+
+        <?php
             $answers = $questions[$currentQuestionIndex]['Text2'];
-            echo $answers[0]['Text2'];
+                
+            for ($a = 0; $a < count($answers); $a++ ) {
+            $IsCorrectAnswer = $answers[$a]['IsCorrectAnswer'];
+            echo '<br><button type="submit" name="answer" value="' . $IsCorrectAnswer . '">'; 
+            $answers = $questions[$currentQuestionIndex]['Text2'];
+            echo $answers[$a]['Text2'];
+            echo '</button><br>';
+    }
+?>
+                
+    <!--<br><button type="submit" class="answer1" name="answer" value="1"><?php
+        //    $answers = $questions[$currentQuestionIndex]['Text2'];
+        //    echo $answers[0]['Text2'];
         ?></button><br><br>
          
     <button type="submit" class="answer2" name="answer" value="2"><?php
-            $answers = $questions[$currentQuestionIndex]['Text2'];
-            echo $answers[1]['Text2'];
+        //    $answers = $questions[$currentQuestionIndex]['Text2'];
+        //    echo $answers[1]['Text2'];
         ?></button><br><br>
         
     <button type="submit" class="answer3" name="answer" value="3"><?php
-            $answers = $questions[$currentQuestionIndex]['Text2'];
-            echo $answers[2]['Text2'];
+        //  $answers = $questions[$currentQuestionIndex]['Text2'];
+        //  echo $answers[2]['Text2'];
         ?></button><br><br>
      
     <button type="submit" class="answer4" name="answer" value="4"><?php
-            $answers = $questions[$currentQuestionIndex]['Text2'];
-            echo $answers[3]['Text2'];
+        //  $answers = $questions[$currentQuestionIndex]['Text2'];
+        //  echo $answers[3]['Text2'];
         ?></button><br><br>
-        
+    -->    
 
         <input type="hidden" name="lastQuestionIndex" value="<?php echo $currentQuestionIndex;?>">
         <input type="hidden" name="nextQuestionIndex" value="<?php echo $currentQuestionIndex +1;?>">
 
-<!-- for ($Text2 = 0; $Text2 < count($answers); Text2++){echo...;} -->
 
 
         </form>
