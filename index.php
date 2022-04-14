@@ -124,6 +124,17 @@ if ($_POST["answer"] == 4) {
             echo $answers[$a]['Text2'];
             echo '</button><br>';
     }
+            
+            //break;
+            //echo '<form class="form" method="post" action="result.php">';
+            
+foreach ($arr as $val) {
+    if ($val == 'stop') {
+        break;    /* Sie könnten hier auch 'break 1;' schreiben. */
+    }
+    echo "$val<br />\n";
+}
+
 ?>
                 
     <!--<br><button type="submit" class="answer1" name="answer" value="1"><?php
