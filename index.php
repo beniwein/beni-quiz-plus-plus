@@ -4,7 +4,7 @@
 
     session_start();
 
-    $currentQuestionIndex = 2;
+    $currentQuestionIndex = 3;
 
     if (isset($_POST['lastQuestionIndex'])) {
 
@@ -22,9 +22,9 @@
     }
 
 
-    echo '<pre>';
-    print_r($_SESSION['questions']);
-    echo '</pre>';
+    //echo '<pre>';
+    //print_r($_SESSION['questions']);
+    //echo '</pre>';
 
     
     
@@ -85,7 +85,10 @@
 <body>
         
 
-        <form class="form" method="post">
+        <form class="form" <?php 
+            if ($currentQuestionIndex + 1 == count($questions)) echo 'action="result.php" ';?> 
+            method="post">
+
         <h2>Tech-Quizz</h2><hr>
         <h3>Question: <?php echo $currentQuestionIndex; ?><h3>
         <p><?php echo $questions[$currentQuestionIndex]['Text']; ?></p>
