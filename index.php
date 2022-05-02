@@ -1,12 +1,15 @@
 <?php
 
+session_start();
+// session_destroy();
+
     include 'db.php';
-
-    session_start();
-
+    include 'data-collector.php';
+    
     $currentQuestionIndex = 3;
-
+    
     if (isset($_POST['lastQuestionIndex'])) {
+        $lastQuestionIndex = $_POST['lastQuestionIndex'];
 
         if (isset ($_POST['nextQuestionIndex'])) {
             $currentQuestionIndex = $_POST['nextQuestionIndex'];
@@ -20,55 +23,7 @@
         $questions = getQuestions();
         $_SESSION['questions'] = $questions;
     }
-
-
-    //echo '<pre>';
-    //print_r($_SESSION['questions']);
-    //echo '</pre>';
-
-    
-    
-// $query = $dbConnection->query("SELECT Text,Text2 FROM Questions, Answers WHERE IsCorrectAnswer = 1 AND QuestionId = ID");
-// requires !Foreign-KEY! to match with PRIMARY-KEY *************
-
-    //$query = $dbConnection->query("SELECT Text FROM Answers");
-                             
-    //echo '<div class="container-fluid p-5">';
-    //echo '<div class="h3">Tech Quiz</div>';
-    //echo '<table class="table table-striped">';
-    //echo '<thead>';
-    //echo '<tr>';
-
-    /*$columnCount = $query->columnCount();
-
-    for ($i = 0; $i < $columnCount; $i++) {
-        $columnInfo = $query->getColumnMeta($i);
-        $columnName = $columnInfo['name'];
-        echo "<td>$columnName</td>";
-    }
-
-    echo '</tr>';
-    echo '</thead>';
-        
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-       echo '<tr>';
-       foreach ($row as $columnName => $value) {
-        echo "<td>$value<td>";
-       }
-
-       echo '</tr>';
-       
-    }
-    */
-    //echo '</table>';
-    //echo '</div>';
-    //echo '</div>';
-
-    // echo '<pre>';
-    // print_r($query);
-    // echo '</pre>';
-
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,43 +38,46 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-        
 
-        <form class="form" <?php 
-            if ($currentQuestionIndex + 1 == count($questions)) echo 'action="result.php" ';?> 
-            method="post">
+<h2>Tech-Quizz</h2><hr>
+<h3>Question: <?php echo $currentQuestionIndex; ?><h3>
+<p><?php echo $questions[$currentQuestionIndex]['Text']; ?></p>
 
-        <h2>Tech-Quizz</h2><hr>
-        <h3>Question: <?php echo $currentQuestionIndex; ?><h3>
-        <p><?php echo $questions[$currentQuestionIndex]['Text']; ?></p>
+<form class="form" <?php 
+    if ($currentQuestionIndex + 1 >= count($questions)) echo 'action="result.php" ';?> method="post">
 
         <?php
             $answers = $questions[$currentQuestionIndex]['Text2'];
-            $Type = $questions[$currentQuestionIndex]['Type'];
+            // $Type = $questions[$currentQuestionIndex]['Type'];
 
-        /*    for ($a = 0; $a < count($answers); $a++) {
-                if ($Type == MULTIPLE) {
-
-
-                }
-                else {
-                    
-                }
-            }*/
+            $maxPoints = 0;
 
             for ($a = 0; $a < count($answers); $a++ ) {
             $IsCorrectAnswer = $answers[$a]['IsCorrectAnswer'];
-            echo '<br><button type="submit" name="answer" value="' . $IsCorrectAnswer . '">'; 
+            echo '<br><button type="submit" for="i-' . $a . '">'; 
             $answers = $questions[$currentQuestionIndex]['Text2'];
             echo $answers[$a]['Text2'];
-            echo '</button><br>';            
-    }
+            echo '</button><br>'; 
             
-            //break;
-            //echo '<form class="form" method="post" action="result.php">';
-   
-?>
-                
+            $maxPoints += $IsCorrectAnswer;
+    }
+    /*
+    if(array_key_exists('answers', $_POST)) {
+    
+        if($_POST['answers'] == $IsCorrectAnswer[$_SESSION['questions']])
+        {
+            $_SESSION['questions']++;
+            $_SESSION['Correct']++;
+        }
+        else
+    {
+            $_SESSION['questions']++;
+            $_SESSION['Wrong']++;
+
+    }
+    }
+    */         
+?>                
     <!--<br><button type="submit" class="answer1" name="answer" value="1"><?php
         //    $answers = $questions[$currentQuestionIndex]['Text2'];
         //    echo $answers[0]['Text2'];
@@ -141,10 +99,9 @@
         ?></button><br><br>
     -->    
 
-        <input type="hidden" name="lastQuestionIndex" value="<?php echo $currentQuestionIndex;?>">
-        <input type="hidden" name="nextQuestionIndex" value="<?php echo $currentQuestionIndex +1;?>">
-
-
+    <input type="hidden" name="lastQuestionIndex" value="<?php echo $currentQuestionIndex; ?>">
+    <input type="hidden" name="nextQuestionIndex" value="<?php echo $currentQuestionIndex + 1; ?>">
+    <input type="hidden" name="maxPoints" value="<?php echo $maxPoints; ?>">
 
         </form>
     </main>
@@ -152,4 +109,3 @@
 </body>
 
 </html>
-

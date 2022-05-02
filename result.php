@@ -1,3 +1,7 @@
+<?php 
+    include 'data-collector.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,30 +20,48 @@
 <h3>Your Result:</h3>
 
 <?php
-    session_start();
+    if (isset($_SESSION['achievedPointsList'])) {
+        $achievedPointsList = $_SESSION['achievedPointsList'];
+    }
+    else {
+        $achievedPointsList = array();
+    }
+    if (isset($_SESSION['maxPointsList'])) {
+        $maxPointsList = $_SESSION['maxPointsList'];
+    }
+    else {
+        $maxPointsList = array();
+    }
+    $total = 0;
 
-    $_SESSION["index"] = $_POST["index"];
+    foreach ($achievedPointsList as $key => $value) {
+        $total += $value;
+    }
+    $maxTotal = 0;
 
-    $score = $_SESSION['Correct'];
-
-    if ($score > 7) { 
-        
-            echo  "<h1>You win - thanks for playing...</h1>" . "<br>";
-        
-        }  else { 
-            echo "<h1>You lose - try again...</h1>" . "<br>";
-         
+    foreach ($maxPointsList as $key => $value) {
+        $maxTotal += $value;
     }
 
-    print_r ('Score: ' . $score);
+    if ($total / $maxTotal >= 0.8) {
+        $exclamation = 'Great';
+    }
+    else if ($total / $maxTotal >= 0.4) {
+        $exclamation = 'Okay';
+    }
+    else {
+        $exclamation = 'Ups';
+    }
 ?>
 
+<h3><?php echo $exclamation; ?>, you got <?php echo $total; ?> of <?php echo $maxTotal; ?> points!</h3>
+<?php echo '------- $total von $maxTotal funktioniert noch nicht richtig.-------'?>
+
+<form method="post">
 <a class="btn btn-primary btn-sm float-end" href="index.php" type="button">Back to Quiz</a>
+</form>
 
-<!-- hidden field -->
-<input type="hidden" id="feedbackId" name="feedbackId" value="feedback">
-
-<script src="main.js"></script>
+<script src="js/main.js"></script>
 </body>
 
 </html>
